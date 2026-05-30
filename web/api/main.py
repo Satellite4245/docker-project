@@ -1,5 +1,4 @@
 import os
-import uvicorn
 import pymysql
 import hashlib
 from fastapi import FastAPI, HTTPException
