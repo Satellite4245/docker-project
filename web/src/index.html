@@ -18,6 +18,12 @@
     <div class="login-container">
         <form id="loginForm" class="login-box">
             <h1 class="title">Login</h1>
+            <div id="errorAlert" class="alert alert-danger align-items-center py-2 px-3 mt-2 mb-0" role="alert" style="display: none;">
+                <i class="fa-solid fa-triangle-exclamation me-2"></i>
+                <div id="errorMessage">
+                    An example danger alert with an icon
+                </div>
+            </div>
             <div class="input-group input-group-lg email-input">
                 <span class="input-group-text" id="visible-addon">
                     <i class="fa-solid fa-user"></i>
@@ -48,11 +54,16 @@
     document.getElementById('loginForm').addEventListener('submit', async (event) => {
         event.preventDefault(); // 폼 제출 시 브라우저가 새로고침되는 기본 동작을 막음
 
+        // 에러 알림창 초기화
+        const errorAlert = document.getElementById('errorAlert');
+        errorAlert.style.display = "none";
+
         const usernameVal = document.getElementById('username').value;
         const passwordVal = document.getElementById('password').value;
 
         if (!usernameVal || !passwordVal) {
-            alert("아이디와 비밀번호를 모두 입력해주세요.")
+            document.getElementById('errorMessage').textContent = "아이디와 비밀번호를 모두 입력해주세요.";
+            errorAlert.style.display = "flex";
             return;
         }
 
@@ -74,7 +85,8 @@
                 sessionStorage.setItem('username', usernameVal);
                 window.location.href = "/main";
             } else {
-                alert(result.detail || "Login failed")
+                document.getElementById('errorMessage').textContent = result.detail || "Login failed";
+                errorAlert.style.display = "flex";
             }
 
         } catch (e) {
